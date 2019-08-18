@@ -1,0 +1,5 @@
+---
+execute:
+    local: true
+    commands:
+    - ruby app.rb ./samples/note-1
