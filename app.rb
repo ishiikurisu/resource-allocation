@@ -6,13 +6,6 @@ def load f
 end
 
 
-def combine xs
-    1.upto(xs.size).flat_map do |n|
-        xs.combination(n).to_a
-    end
-end
-
-
 def price p
     p.map { |e| e["p"] }.inject(0, :+)
 end
@@ -32,11 +25,17 @@ end
 
 
 def analyze fr_r, m
-    combine(fr_r).filter { |p|
-        validate(m, p)
-    }.sort { |a, b|
-        score(b) <=> score(a)
-    }.first
+    best_p = nil
+    best_score = -1.0/0.0
+
+    fr_r.combination(m["T"]) do |p|
+        if validate(m, p) && score(p) > best_score
+            best_p = p
+            best_score = score(p)
+        end
+    end
+
+    return best_p
 end
 
 
