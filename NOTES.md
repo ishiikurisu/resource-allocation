@@ -85,6 +85,12 @@ From the mathematical description, I believe I only need to define `fr(R)` and `
 }
 ```
 
+One thing that can be improved is that `T` can be derived from `Q`:
+
+```
+T = sum_(C in Q) Q(C)
+```
+
 
 # Approaches
 
@@ -93,3 +99,25 @@ From the mathematical description, I believe I only need to define `fr(R)` and `
 1. Given a `fr(R)` and an `M`, generate every possible `P` from `fr(R)`
 1. For each `P`, check if it is valid and calculate its score
 1. Sort valid `P`s by their score
+
+This naïve should be careful to not consume all memory available when generating every possible `P` from `fr(R)`. This means processing each `P` as it is generated instead of generating all `P`s at once. Also, we only need the `P : #P = T`.
+
+
+## Less naïve approach
+
+1. Separate all resources into their own categories
+1. For each category, apply the naïve algorithm in parallel
+1. Incorporate all results into a single one
+
+Another idea to improve this is to use the category knowledge in our favor to execute this in parallel and probably save some time. It is safe to assume that the best score for a plan will be the sum of the best score of the best plan for each category. By separating the categories, it is possible to execute the naïve algorithm a lot faster.
+
+The problem of this implementation is that it doesn't take the price of the resources into consideration. Some ways of ignoring this is:
+
+- Considering that each category should cost at most a proportion of the total cost, probably `Q/T`.
+- Outputting the best for each category and then applying the naíve approach once more.
+
+
+## Other approaches
+
+- Dynamic programming?
+- Operations research?
