@@ -3,10 +3,12 @@ build:
     local: true
     commands:
     - ruby ./samples/big_case/generate.rb ./samples/big_case
+    - ruby json2dat.rb ./samples/note-1/
+    - ruby json2dat.rb ./samples/big_case/
 
 execute:
     local: true
     commands:
-    - ruby app.rb ./samples/note-1
-    - ruby app.rb ./samples/big_case
     - rm samples/big_case/fr_R.json
+    - rm samples/note-1/input.dat
+    - rm samples/big_case/input.dat
