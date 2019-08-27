@@ -24,27 +24,32 @@ def validate m, p
 end
 
 
-def analyze fr_r, m
-    best_p = nil
-    best_score = -1.0/0.0
+def s p
+    validate($m, p) ? score(p) : -1.0/0.0
+end
 
-    fr_r.combination(m["T"]) do |p|
-        if validate(m, p) && score(p) > best_score
-            best_p = p
-            best_score = score(p)
-        end
+
+def f p, i
+    if i >= $fr_r.length
+        return p, s(p)
     end
 
-    return best_p
+    p1, s1 = f p + [$fr_r[i]], i+1
+    p2, s2 = f p, i+1
+    if s1 > s2
+        return p1, s1
+    else
+        return p2, s2
+    end
 end
 
 
 if __FILE__ == $0
     input_folder = ARGV[0]
-    fr_r = load "#{input_folder}/fr_R.json"
-    m = load "#{input_folder}/M.json"
+    $fr_r = load "#{input_folder}/fr_R.json"
+    $m = load "#{input_folder}/M.json"
 
-    best_p = analyze fr_r, m
+    best_p, _ = f [], 0
 
     puts "best P:"
     puts best_p

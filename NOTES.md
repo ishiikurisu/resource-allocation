@@ -117,7 +117,35 @@ The problem of this implementation is that it doesn't take the price of the reso
 - Outputting the best for each category and then applying the naíve approach once more.
 
 
+## Kinda Dynammic Programming
+
+The idea of this approach is demonstrated in the following pseudocode:
+
+``` coffee
+p = {}   # set of all players
+f = (t, i) ->  # t: team, i: index of player
+  if i > p.length
+    s(t)
+  else
+    max(f(t << p[i], i+1),
+        f(t        , i+1))
+
+# score of a team
+s = t ->
+  # TODO use memoization here
+  if is_invalid(t)  # due to money or bad formation
+    -Infinity
+  else
+    calculate_score(t)
+
+console.log f([], 0)
+```
+
+If `n` is the size of `p`, then this algorithm has time complexity `O(n^2)` in the worst case scenario, which
+it a lot better than the previous one. However, it also takes the same complexity for space if we use use
+memoization, which is impracticable for some inputs.
+
+
 ## Other approaches
 
-- Dynamic programming?
 - Operations research?
