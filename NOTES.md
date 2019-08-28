@@ -117,7 +117,7 @@ The problem of this implementation is that it doesn't take the price of the reso
 - Outputting the best for each category and then applying the naíve approach once more.
 
 
-## Kinda Dynammic Programming
+## Backtracking
 
 The idea of this approach is demonstrated in the following pseudocode:
 
@@ -141,9 +141,13 @@ s = t ->
 console.log f([], 0)
 ```
 
-If `n` is the size of `p`, then this algorithm has time complexity `O(n^2)` in the worst case scenario, which
-it a lot better than the previous one. However, it also takes the same complexity for space if we use use
-memoization, which is impracticable for some inputs.
+If `n` is the size of `p`, then this algorithm has time complexity in the worst case scenario equals to:
+
+```
+O = sum_(i=1)^(n) i^2
+```
+
+which it a lot better than the previous one. However, it also takes the same complexity for space, which is impractible in some situations.
 
 
 ## Other approaches
