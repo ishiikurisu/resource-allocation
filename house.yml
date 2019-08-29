@@ -5,10 +5,13 @@ build:
     - ruby ./samples/big_case/generate.rb ./samples/big_case
     - ruby json2dat.rb ./samples/note-1/
     - ruby json2dat.rb ./samples/big_case/
+    - gcc app.c -o app.exe -Wall
 
 execute:
     local: true
     commands:
+    - ./app.exe samples/note-1/input.dat
+    - ./app.exe samples/big_case/input.dat
     - rm samples/big_case/fr_R.json
     - rm samples/note-1/input.dat
     - rm samples/big_case/input.dat
