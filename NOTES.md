@@ -150,6 +150,35 @@ O = sum_(i=1)^(n) 2^i
 which it still isn't practible
 
 
+## Dynamic programming
+
+DP is backtracking plus memoization. How can I memoize this algorithm? I could iterate over a matrix "i-th choice" * "j-th player". This means that, if we have a matrix `S` for scores, then
+
+``` py
+S[j][i] = max(
+    score(fr_r[j]) + S[j+1][i+1],  
+    S[j][i+1],
+)
+```
+
+This is the same as writting:
+
+``` py
+S[j][i] = max(
+    f(j) + S[j-1][i-1],
+    S[j][i-1],
+)
+```
+
+- [ ] Calculate best possible score for my money
+
+By keeping track of a score matrix and a money matrix, I can determine what is the best score for my money. By determining what is the best score, _maybe_ I can reconstruct the best team. How?
+
+- [ ] Determine team that obtained a given score in the matrix
+
+Take a look at the `T`-th row: from that row, we have all teams with the size we need. By selecting only this row, we can focus on the teams that really matters and start from there.
+
+
 ## Other approaches
 
 - Operations research?
