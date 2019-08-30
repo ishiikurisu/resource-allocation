@@ -144,10 +144,10 @@ console.log f([], 0)
 If `n` is the size of `p`, then this algorithm has time complexity in the worst case scenario equals to:
 
 ```
-O = sum_(i=1)^(n) i^2
+O = sum_(i=1)^(n) 2^i
 ```
 
-which it a lot better than the previous one. However, it also takes the same complexity for space, which is impractible in some situations.
+which it still isn't practible
 
 
 ## Other approaches
