@@ -147,36 +147,26 @@ If `n` is the size of `p`, then this algorithm has time complexity in the worst 
 O = sum_(i=1)^(n) 2^i
 ```
 
-which it still isn't practible
+which still isn't practical...
 
 
 ## Dynamic programming
 
-DP is backtracking plus memoization. How can I memoize this algorithm? I could iterate over a matrix "i-th choice" * "j-th player". This means that, if we have a matrix `S` for scores, then
+DP is backtracking plus memoization. How can I memoize this algorithm? I could itetate over a matrix "i-th choice" * "j-th player". How can I turn this into a DP algirithm taking the limitations into account?
 
-``` py
-S[j][i] = max(
-    score(fr_r[j]) + S[j+1][i+1],  
-    S[j][i+1],
-)
-```
 
-This is the same as writting:
+## Control Theory approach
 
-``` py
-S[j][i] = max(
-    f(j) + S[j-1][i-1],
-    S[j][i-1],
-)
-```
+1. Start with a random valid `p`
+2. Improve `p` as much as possible
 
-- [ ] Calculate best possible score for my money
+We will call "improving `p`" the procedure of iterating over every element of `fr_r` and trying to find one that improves `p` while remaining valid.
 
-By keeping track of a score matrix and a money matrix, I can determine what is the best score for my money. By determining what is the best score, _maybe_ I can reconstruct the best team. How?
+The idea is to keep improving `p` until we find the best combination (that is, until the improving `p` with `fr_r` renders `p` itself) or until we run out of time.
 
-- [ ] Determine team that obtained a given score in the matrix
+Problems:
 
-Take a look at the `T`-th row: from that row, we have all teams with the size we need. By selecting only this row, we can focus on the teams that really matters and start from there.
+- How do we find a valid starting `p`? This is something I could find on my own in some cases but I would still like to make the computer run most of the problems. Is this a `P=NP` problem?? Checking if a `p` is valid is simple, but generating one valid `p` seems super fucking hard.
 
 
 ## Other approaches
