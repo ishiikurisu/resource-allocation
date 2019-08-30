@@ -1,4 +1,5 @@
 require "json"
+require "set"
 
 
 def load f
@@ -29,69 +30,66 @@ def s p
 end
 
 
-def write_matrix m
-    m.each do |row|
-        puts row.map { |e| e == -1.0/0.0 ? 'nil' : e }.join("\t")
-    end
-end
-
-
-def calculate x, y, memo, prop
-    if (x-1 < 0) || (y-1 < 0)
-        memo[y][x] = -1.0/0.0
-    else
-        adding_player = [memo[y-1][x-1], 0].max
-        not_adding_player = [memo[y][x-1], 0].max
-        memo[y][x] = [
-            $fr_r[y][prop] + adding_player,
-            not_adding_player,
-        ].max
-    end
-
-    return memo
-end
-
-
-def analyze
-    # populating memo
-    limit = $fr_r.length
-    for y in 0...$fr_r.length
-        for x in 0 ... $fr_r.length
-            calculate x, y, $score_memo, 's'
-            calculate x, y, $money_memo, 'p'
+def generate_variations p, r
+    indexes = []
+    p.each_index do |i|
+        if p[i]['c'] == r['c']
+            indexes << i
         end
     end
 
-    write_matrix $score_memo
-    write_matrix $money_memo
+    variations = [p]
+    indexes.each do |i|
+        new_p = Array.new p
+        new_p[i] = r
+        variations << new_p
+    end
 
-    # TODO filter scores by money
-
-    # TODO select possible scores for my money
+    return variations
 end
 
 
-def prepare_memo
-    memo = []
-    $fr_r.length.times do
-        a = []
-        $m["T"].times do
-            a << nil
-        end
-        memo << a
+# improves a valid p using r
+def improve p, r, m
+    return generate_variations(p, r).filter { |e| validate m, e }.max { |a, b| score(a) <=> score(b) }
+end
+
+
+# generates a valid p from fr_r and m
+# TODO generate a valid p from fr_r and m
+def generate fr_r, m
+    p = []
+
+    m['Q'].each do |q_k, q_v|
+        p += fr_r.select { |r| r['c'] == q_k }.take q_v
     end
-    return memo
+
+    return p
+end
+
+
+# that's the main procedure!
+def analyze fr_r, m
+    p = generate fr_r, m
+    old_p = []
+
+    while score(old_p) < score(p)
+        old_p = Array.new p
+        fr_r.each do |r|
+            p = improve p, r, m
+        end
+    end
+
+    return p
 end
 
 
 if __FILE__ == $0
     input_folder = ARGV[0]
-    $fr_r = load "#{input_folder}/fr_R.json"
-    $m = load "#{input_folder}/M.json"
-    $score_memo = prepare_memo
-    $money_memo = prepare_memo
+    fr_r = load "#{input_folder}/fr_R.json"
+    m = load "#{input_folder}/M.json"
 
-    best_p = analyze
+    best_p = analyze fr_r, m
 
     puts "best P:"
     puts best_p
