@@ -166,7 +166,10 @@ The idea is to keep improving `p` until we find the best combination (that is, u
 
 Problems:
 
-- How do we find a valid starting `p`? This is something I could find on my own in some cases but I would still like to make the computer run most of the problems. Is this a `P=NP` problem?? Checking if a `p` is valid is simple, but generating one valid `p` seems super fucking hard.
+- How do we find a valid starting `p`?
+
+Possible solutions:
+- Start with the cheapest combination for each category. If the cheapest team combination is not valid, then there are no valid combinations.
 
 
 ## Other approaches

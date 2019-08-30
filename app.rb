@@ -1,5 +1,4 @@
 require "json"
-require "set"
 
 
 def load f
@@ -22,11 +21,6 @@ def validate m, p
     is_t = p.length == m["T"]
     is_w = price(p) < m["W"]
     is_q && is_t && is_w
-end
-
-
-def s p
-    validate($m, p) ? score(p) : -1.0/0.0
 end
 
 
@@ -56,12 +50,15 @@ end
 
 
 # generates a valid p from fr_r and m
-# TODO generate a valid p from fr_r and m
 def generate fr_r, m
     p = []
 
     m['Q'].each do |q_k, q_v|
-        p += fr_r.select { |r| r['c'] == q_k }.take q_v
+        p += fr_r.select { |r| r['c'] == q_k }.sort { |a, b| a['p'] <=> b['p'] }.take q_v
+    end
+
+    unless validate(m, p)
+        raise 'invalid p to begin with'
     end
 
     return p
@@ -93,4 +90,6 @@ if __FILE__ == $0
 
     puts "best P:"
     puts best_p
+    puts "=> $#{price(best_p)}"
+    puts "=> #{score(best_p)}p"
 end
