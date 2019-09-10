@@ -5,7 +5,8 @@ def new_player category
     return {
         "c" => category,
         "s" => Random.rand(30) - 15,
-        "p" => Random.rand(28) + 2
+        "p" => Random.rand(28) + 2,
+        "n" => Random.rand
     }
 end
 

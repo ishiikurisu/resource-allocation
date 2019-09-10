@@ -25,18 +25,21 @@ end
 
 
 def generate_variations p, r
-    indexes = []
-    p.each_index do |i|
-        if p[i]['c'] == r['c']
-            indexes << i
-        end
-    end
-
     variations = [p]
-    indexes.each do |i|
-        new_p = Array.new p
-        new_p[i] = r
-        variations << new_p
+
+    unless p.map { |x| x['n'] == r['n'] }.any?
+        indexes = []
+        p.each_index do |i|
+            if p[i]['c'] == r['c']
+                indexes << i
+            end
+        end
+
+        indexes.each do |i|
+            new_p = Array.new p
+            new_p[i] = r
+            variations << new_p
+        end
     end
 
     return variations
