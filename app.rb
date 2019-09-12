@@ -87,9 +87,9 @@ end
 if __FILE__ == $0
     input_folder = ARGV[0]
     fr_r = load "#{input_folder}/fr_R.json"
-    m = load "#{input_folder}/M.json"
+    mm = load "#{input_folder}/M.json"
 
-    best_p = analyze fr_r, m
+    best_p = mm.map { |m| analyze fr_r, m }.max { |a, b| score(a) <=> score(b) }
 
     puts "best P:"
     puts best_p
