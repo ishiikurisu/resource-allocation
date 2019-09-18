@@ -10,4 +10,4 @@ build:
 execute:
     local: true
     commands:
-    - ruby app.rb ../data/output
+    - ruby app.rb @inlet
